@@ -29,12 +29,11 @@ enum planck_keycodes {
 
 #define LA_SYM MO(_SYM)
 #define LA_NAV MO(_NAV)
-#define LA_NUM MO(_NUM)
 #define OS_SHFT OSM(MOD_LSFT)
 #define OS_CTRL OSM(MOD_LCTL)
 #define OS_ALT OSM(MOD_LALT)
 #define OS_CMD OSM(MOD_LGUI)
-#define SYM_SPC MT(LA_SYM, KC_SPC)
+#define SYM_SPC LT(LA_SYM, KC_SPC)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -71,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESC,  KC_LBRC, KC_LCBR, KC_LPRN, KC_GRV,  _______, _______, KC_TILD, KC_RPRN, KC_RCBR, KC_RBRC, _______,
     KC_MINS, KC_ASTR, KC_EQL,  KC_UNDS, KC_DLR,  _______, _______, KC_HASH, OS_CMD,  OS_ALT,  OS_CTRL, OS_SHFT,
     KC_PLUS, KC_PIPE, KC_AT,   KC_SLSH, KC_PERC, _______, _______, KC_CIRC, KC_BSLS, KC_AMPR, KC_QUES, KC_EXLM,
-    _______, _______, _______, _______, LA_NUM,  _______, _______, _______, _______,  _______, _______, _______
+    _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
 ),
 
 /* Navigation
@@ -89,7 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESC,  KC_MUTE, KC_VOLD, KC_VOLU, _______, _______, _______, KC_TAB,  KC_END,  KC_HOME, KC_BSPC, KC_DEL,
     OS_SHFT, OS_CTRL, OS_ALT,  OS_CMD,  _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_ENT,
     KC_CAPS, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, _______, _______, KC_PGDN, KC_PGUP, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, LA_NUM, _______,  _______, _______, _______
+    _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
 ),
 
 /* Number
