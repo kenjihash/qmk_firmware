@@ -18,96 +18,99 @@
 
 enum planck_layers {
   _QWERTY,
-  _LOWER,
-  _RAISE,
-  _ADJUST
+  _SYM,
+  _NAV,
+  _NUM
 };
 
 enum planck_keycodes {
   QWERTY = SAFE_RANGE,
 };
 
-#define LOWER MO(_LOWER)
-#define RAISE MO(_RAISE)
+#define LA_SYM MO(_SYM)
+#define LA_NAV MO(_NAV)
+#define LA_NUM MO(_NUM)
+#define OS_SHFT OSM(MOD_LSFT)
+#define OS_CTRL OSM(MOD_LCTL)
+#define OS_ALT OSM(MOD_LALT)
+#define OS_CMD OSM(MOD_LGUI)
+#define SYM_SPC MT(LA_SYM, KC_SPC)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Qwerty
  * ,-----------------------------------------------------------------------------------.
- * | Tab  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
+ * |   Q  |   W  |   E  |   R  |   T  |      |      |   Y  |   U  |   I  |   O  |   P  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Esc  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  '   |
+ * |   A  |   S  |   D  |   F  |   G  |      |      |   H  |   J  |   K  |   L  |   '  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
+ * |   Z  |   X  |   C  |   V  |   B  |      |      |   N  |   M  |   ,  |   .  |   ;  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Brite| Ctrl | Alt  | GUI  |Lower |    Space    |Raise | Left | Down |  Up  |Right |
+ * |      |      |      |      |  NAV | SHFT | SHFT |  SYM |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
 [_QWERTY] = LAYOUT_ortho_4x12(
-    KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
-    KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-    KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT ,
-    KC_LCTL, KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
+    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,   _______, _______, KC_Y,   KC_U,    KC_I,    KC_O,   KC_P,
+    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   _______, _______, KC_H,   KC_J,    KC_K,    KC_L,   KC_QUOT,
+    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,   _______, _______, KC_N,   KC_M,    KC_COMM, KC_DOT, KC_SCLN,
+    _______, _______, _______, _______, LA_NAV, OS_SHFT, OS_SHFT, SYM_SPC, _______,  _______, _______, _______
 ),
 
-/* Lower
+/* Symbol
  * ,-----------------------------------------------------------------------------------.
- * |   ~  |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |   *  |   (  |   )  | Bksp |
+ * |  ESC |   [  |   {  |   (  |   `  |      |      |   ~  |   )  |   }  |   ]  |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Del  |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   _  |   +  |   {  |   }  |  |   |
+ * |   -  |   *  |   =  |   _  |   $  |      |      |   #  | GUI  | ALT  | CTRL | SHFT |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO ~ |ISO | | Home | End  |      |
+ * |   +  |   |  |   @  |   /  |   %  |      |      |   ^  |   \  |   &  |   ?  |   !  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
+ * |      |      |      |      |  NUM |      |      |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
-[_LOWER] = LAYOUT_ortho_4x12(
-    KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR,    KC_ASTR,    KC_LPRN, KC_RPRN, KC_BSPC,
-    KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_UNDS,    KC_PLUS,    KC_LCBR, KC_RCBR, KC_PIPE,
-    _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  S(KC_NUHS), S(KC_NUBS), KC_HOME, KC_END,  _______,
-    _______, _______, _______, _______, _______, _______, _______, _______,    KC_MNXT,    KC_VOLD, KC_VOLU, KC_MPLY
+[_SYM] = LAYOUT_ortho_4x12(
+    KC_ESC,  KC_LBRC, KC_LCBR, KC_LPRN, KC_GRV,  _______, _______, KC_TILD, KC_RPRN, KC_RCBR, KC_RBRC, _______,
+    KC_MINS, KC_ASTR, KC_EQL,  KC_UNDS, KC_DLR,  _______, _______, KC_HASH, OS_CMD,  OS_ALT,  OS_CTRL, OS_SHFT,
+    KC_PLUS, KC_PIPE, KC_AT,   KC_SLSH, KC_PERC, _______, _______, KC_CIRC, KC_BSLS, KC_AMPR, KC_QUES, KC_EXLM,
+    _______, _______, _______, _______, LA_NUM,  _______, _______, _______, _______,  _______, _______, _______
 ),
 
-/* Raise
+/* Navigation
  * ,-----------------------------------------------------------------------------------.
- * |   `  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
+ * |  ESC | Mute | Vol- | Vol+ |      |      |      | Tab  | End  | Home | Bksp | Del  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Del  |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   -  |   =  |   [  |   ]  |  \   |
+ * | SHFT | CTRL | ALT  | GUI  |      |      |      | Left | Down | Up   | Right| Entr |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO # |ISO / |Pg Up |Pg Dn |      |
+ * |CWORD | Prev |PlyPas| Next |      |      |      |      |Pg Dn |Pg Up |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
+ * |      |      |      |      |      |      |      | NUM  |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
-[_RAISE] = LAYOUT_ortho_4x12(
-    KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
-    KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS,
-    _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_NUHS, KC_NUBS, KC_PGUP, KC_PGDN, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY
+[_NAV] = LAYOUT_ortho_4x12(
+    KC_ESC,  KC_MUTE, KC_VOLD, KC_VOLU, _______, _______, _______, KC_TAB,  KC_END,  KC_HOME, KC_BSPC, KC_DEL,
+    OS_SHFT, OS_CTRL, OS_ALT,  OS_CMD,  _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_ENT,
+    KC_CAPS, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, _______, _______, KC_PGDN, KC_PGUP, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, LA_NUM, _______,  _______, _______, _______
 ),
 
-/* Adjust (Lower + Raise)
- *                      v------------------------RGB CONTROL--------------------v
+/* Number
  * ,-----------------------------------------------------------------------------------.
- * |      | Reset|Debug | RGB  |RGBMOD| HUE+ | HUE- | SAT+ | SAT- |BRGTH+|BRGTH-|  Del |
+ * |   1  |   2  |   3  |   4  |   5  |      |      |   6  |   7  |   8  |   9  |   0  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |MUSmod|Aud on|Audoff|AGnorm|AGswap|Qwerty|Colemk|Dvorak|Plover|      |
+ * | SHFT | CTRL | ALT  | GUI  |  F11 |      |      |  F12 | GUI  | ALT  | CTRL | SHFT |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |Voice-|Voice+|Mus on|Musoff|MIDIon|MIDIof|TermOn|TermOf|      |      |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      |      |      |      |      |
+ * |  F1  |  F2  |  F3  |  F4  |  F5  |      |      |  F6  |  F7  |  F8  |  F9  |  F10 |
  * `-----------------------------------------------------------------------------------'
  */
-[_ADJUST] = LAYOUT_ortho_4x12(
-    _______, QK_BOOT,   DEBUG,   _______, _______, _______, _______, _______, _______,  _______, _______, KC_DEL ,
-    _______, _______, _______,  _______,   _______,  _______, _______, _______,  _______,  _______,  _______,  _______,
-    _______, _______,  _______,  _______,   _______,  _______,   _______,  _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
+[_NUM] = LAYOUT_ortho_4x12(
+    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______, _______,  KC_6,    KC_7,   KC_8,    KC_9,    KC_0,
+    OS_SHFT, OS_CTRL, OS_ALT,  OS_CMD,  KC_F11,  _______, _______,  KC_F12,  OS_CMD, OS_ALT,  OS_CTRL, OS_SHFT,
+    KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   _______, _______,  KC_F6,   KC_F7,  KC_F8,   KC_F9,   KC_F10,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 )
 
 };
 
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-  return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
+  return update_tri_layer_state(state, _SYM, _NAV, _NUM);
 }
