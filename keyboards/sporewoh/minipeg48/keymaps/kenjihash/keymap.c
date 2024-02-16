@@ -16,6 +16,8 @@
 
 #include QMK_KEYBOARD_H
 
+#include "oneshot.h"
+
 enum planck_layers {
   _QWERTY,
   _SYM,
@@ -27,12 +29,17 @@ enum planck_keycodes {
   QWERTY = SAFE_RANGE,
 };
 
+
+enum keycodes {
+  // Custom oneshot mod implementation with no timers.
+  OS_SHFT = SAFE_RANGE,
+  OS_CTRL,
+  OS_ALT,
+  OS_CMD,
+};
+
 #define LA_SYM MO(_SYM)
 #define LA_NAV MO(_NAV)
-#define OS_SHFT OSM(MOD_LSFT)
-#define OS_CTRL OSM(MOD_LCTL)
-#define OS_ALT OSM(MOD_LALT)
-#define OS_CMD OSM(MOD_LGUI)
 #define SYM_SPC LT(LA_SYM, KC_SPC)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -111,6 +118,57 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
+
+bool is_oneshot_cancel_key(uint16_t keycode) {
+    switch (keycode) {
+    case LA_SYM:
+    case LA_NAV:
+        return true;
+    default:
+        return false;
+    }
+}
+
+bool is_oneshot_ignored_key(uint16_t keycode) {
+    switch (keycode) {
+    case LA_SYM:
+    case LA_NAV:
+    case KC_LSFT:
+    case OS_SHFT:
+    case OS_CTRL:
+    case OS_ALT:
+    case OS_CMD:
+        return true;
+    default:
+        return false;
+    }
+}
+
+oneshot_state os_shft_state = os_up_unqueued;
+oneshot_state os_ctrl_state = os_up_unqueued;
+oneshot_state os_alt_state = os_up_unqueued;
+oneshot_state os_cmd_state = os_up_unqueued;
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    update_oneshot(
+        &os_shft_state, KC_LSFT, OS_SHFT,
+        keycode, record
+    );
+    update_oneshot(
+        &os_ctrl_state, KC_LCTL, OS_CTRL,
+        keycode, record
+    );
+    update_oneshot(
+        &os_alt_state, KC_LALT, OS_ALT,
+        keycode, record
+    );
+    update_oneshot(
+        &os_cmd_state, KC_LCMD, OS_CMD,
+        keycode, record
+    );
+
+    return true;
+}
 
 layer_state_t layer_state_set_user(layer_state_t state) {
   return update_tri_layer_state(state, _SYM, _NAV, _NUM);

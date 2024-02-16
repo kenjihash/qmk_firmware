@@ -19,3 +19,5 @@ AUDIO_ENABLE = no           # Audio output
 CAPS_WORD_ENABLE = yes      # Enable Caps Word
 
 LAYOUTS = ortho_4x12
+
+SRC += oneshot.c
